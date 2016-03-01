@@ -1,0 +1,13 @@
+.ftpconfig
+.sync-config.cson
+deployment-config.json
+.idea/
+.idea/*.*
+node_modules
+npm-debug.log
+info
+dist/*.*
+logs/*.*
+lib/packages/http/.request-helper.js.swp
+uploadFile
+IEDriverServer.exe
