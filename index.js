@@ -1,4 +1,4 @@
-var dgcore = require('./lib/spider');
+var scrapy = require('./lib/spider');
 
 //expose class/functions
-module.exports = dgcore;
+module.exports = scrapy;
