@@ -5,8 +5,8 @@
  * 每个阶段有进度标识，progress，用于记录当前阶段的流程进度，取值0-100
  * 每个阶段有过滤器，用于灵活处理流程开始和结束时的数据
  */
-require('./es5_polyfill');
-var scrapy = require('./base');
+require('../es5_polyfill');
+var scrapy = require('../base');
 var ResultItems = require('./resultitems');
 var Downloader = require('./downloader');
 var Extractor = require('./extractor');
