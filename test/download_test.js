@@ -34,22 +34,45 @@ describe('es2015_demo', () => {
 		});
 	});
 	
-	it('下载文件成功', done => {
-		
-		let source = 'https://static.yuanbaopu.com/ui/ec/images/indexs/websitelog.png';
-		let target = randomFilename()+'.png';
+	it('复制本地文件成功 callback', done => {
+
+		let source = __filename;
+		let target = randomFilename();
 		let onProgress = false;
-		
+
 		download(source, target, (size, total) => {
+
 			onProgress = true;
 			assert.equal(size, total);
 			assert.equal(total, getFileSize(source));
+
+		}, (err, filename) => {
+
+			assert.equal(err, null);
+			assert.equal(onProgress, true);
+			assert.equal(target, filename);
+			assert.equal(readFile(source), readFile(target));
+
+			done();
+
+		});
+	});
+  
+	it('下载文件成功', done => {
+		
+		let url = 'https://static.yuanbaopu.com/ui/ec/images/indexs/websitelog.png';
+		let target = randomFilename()+'.png';
+		let onProgress = false;
+		
+		download(url, target, (size, total) => {
+			onProgress = true;
+			assert.equal(size, total);
 		})
 		.then(filename => {
 			console.log(`已保存到${filename}`);
 			assert.equal(onProgress, true);
 			assert.equal(target, filename);
-			assert.equal(readFile(source), readFile(target)); 
+			// assert.equal(total, getFileSize(target));
 			
 			done();
 		})

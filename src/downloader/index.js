@@ -1,10 +1,10 @@
 import path from 'path';
 import mkdirp from 'mkdirp';
-import {noop, randomFilename, isURL} from './utils';
+import {noop, randomFilename, isURL, callbackify} from './utils';
 import copyFile from './copy';
 import downloadFile from './download';
 
-export default function download(source, target, progress){
+export default callbackify(function download(source, target, progress){
 	target = target || randomFilename(download.tmpDir);
 	progress = progress || noop;
 	
@@ -16,4 +16,4 @@ export default function download(source, target, progress){
 				(source, target, progress));
 		});
 	});
-}
+});
