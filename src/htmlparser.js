@@ -2,7 +2,7 @@
 /**
  * 内容提取工具类，用于提取各类页面元素
  */
-require('./lang');
+require('./es5_polyfill');
 var cheerio = require('cheerio');
 var _ = require('underscore');
 

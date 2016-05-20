@@ -170,6 +170,6 @@ _.extend(scrapy, {
 		}
 		return result;
 	}
-};
+});
 
 module.exports = scrapy;

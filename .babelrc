@@ -3,5 +3,5 @@
 		"es2015", 
 		"stage-0"
     ],
-    "plugins": []
+    "plugins": ["transform-regenerator"]
   }

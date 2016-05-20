@@ -5,20 +5,20 @@ var _ = require('underscore');
 var moment = require('moment');
 
 /**
- * JavascriptÓïÑÔ²ãÃæµÄÀ©Õ¹
+ * Javascriptè¯­è¨€å±‚é¢çš„æ‰©å±•
  */
- //===========================================×Ö·û´®º¯Êı
-//ÅĞ¶Ïstring¿ªÊ¼×ÖÄ¸ÊÇ·ñÆ¥Åä
+ //===========================================å­—ç¬¦ä¸²å‡½æ•°
+//åˆ¤æ–­stringå¼€å§‹å­—æ¯æ˜¯å¦åŒ¹é…
 String.prototype.startsWith = function(suffix) {
     return this.indexOf(suffix,0) === 0;
 }
 
-//ÅĞ¶Ïstring¿ªÊ¼×ÖÄ¸ÊÇ·ñÆ¥Åä
+//åˆ¤æ–­stringå¼€å§‹å­—æ¯æ˜¯å¦åŒ¹é…
 String.prototype.endsWith = function(suffix) {
     return this.indexOf(suffix, this.length - suffix.length) !== -1;
 }
 
-// È¥³ıÇ°ºó¿Õ¸ñ·û
+// å»é™¤å‰åç©ºæ ¼ç¬¦
 String.prototype.trim= function(){
     return this.replace(/(^\s*)|(\s*$)/g, "");
 }
@@ -32,12 +32,12 @@ String.prototype.rstrip = function(){
 	return this.replace(/(\/*$)/g, '');
 }
 
-//ÅĞ¶ÏÊÇ·ñ°üº¬Ä³µ¥´Ê
+//åˆ¤æ–­æ˜¯å¦åŒ…å«æŸå•è¯
 String.prototype.contains = function(word){
 	return this.indexOf(word) >= 0;
 }
 
-//¸ù¾İ¿ªÊ¼×Ö·û´®½ØÈ¡¸ø¶¨³¤¶È×Ö·û´®
+//æ ¹æ®å¼€å§‹å­—ç¬¦ä¸²æˆªå–ç»™å®šé•¿åº¦å­—ç¬¦ä¸²
 String.prototype.substr2 = function(startStr, length){
 	var startPos = this.indexOf(startStr) + startStr.length;
 	if(startPos >= 0 && length > 0){
@@ -46,7 +46,7 @@ String.prototype.substr2 = function(startStr, length){
 	return "";
 }
 
-//¸ù¾İ¿ªÊ¼×Ö·û´®ºÍ½áÊø×Ö·û´®½ØÈ¡ÖĞ¼ä¶Î
+//æ ¹æ®å¼€å§‹å­—ç¬¦ä¸²å’Œç»“æŸå­—ç¬¦ä¸²æˆªå–ä¸­é—´æ®µ
 String.prototype.substring2 = function(startStr, endStr){
 	var startPos = this.indexOf(startStr) + startStr.length;
 	var endPos = this.indexOf(endStr);
@@ -56,7 +56,7 @@ String.prototype.substring2 = function(startStr, endStr){
 	return "";
 }
 
-//¸ù¾İ¿ªÊ¼×Ö·û¼°½áÊø×Ö·û»ò³¤¶È½ØÈ¡×Ö·û´®
+//æ ¹æ®å¼€å§‹å­—ç¬¦åŠç»“æŸå­—ç¬¦æˆ–é•¿åº¦æˆªå–å­—ç¬¦ä¸²
 String.prototype.between = function(start, endOrLen){
 	if(Object.prototype.toString.call(end) === '[object Number]'){
 		return this.html.substr2(start, end);
@@ -64,7 +64,7 @@ String.prototype.between = function(start, endOrLen){
 	return this.html.substring2(start, end);
 }
 
-//¸ù¾İÕıÔò±í´ïÊ½ÌáÈ¡Êı¾İ
+//æ ¹æ®æ­£åˆ™è¡¨è¾¾å¼æå–æ•°æ®
 String.prototype.regex = function(expression, index){
     var content = this;
     var index = parseInt(index, 10)||0;
@@ -81,7 +81,7 @@ String.prototype.regex = function(expression, index){
     }
 }
 
-//=========================================================ÈÕÆÚº¯Êı
+//=========================================================æ—¥æœŸå‡½æ•°
 Date.DEFAULT_DATETIME_FORMAT = "YYYY-MM-DD HH:mm:ss.SSS";
 Date.DEFAULT_DATE_FORMAT = "YYYY-MM-DD";
 Date.DEFAULT_MONTH_FORMAT = "YYYY-MM";
@@ -186,11 +186,11 @@ Date.prototype.toJSON = function(){
 	return this.toISOString();
 }
 
-//====================================================Functionº¯ÊıÀ©Õ¹
+//====================================================Functionå‡½æ•°æ‰©å±•
 Function.emptyFn = function(){};
 Function.logFn = function(){console.log(arguments)};
 
-//====================================================underscoreº¯ÊıÀ©Õ¹
+//====================================================underscoreå‡½æ•°æ‰©å±•
 _.mixin({
 	isNotEmpty: function(o){
 		return !_.isEmpty(o);

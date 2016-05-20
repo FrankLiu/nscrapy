@@ -4,7 +4,7 @@
  **
  * Http客户端工具
  */
-require('./lang');
+require('./es5_polyfill');
 var util = require('util');
 var EventEmitter = require('events');
 var _ = require('underscore');

@@ -5,7 +5,7 @@
  */
 var util = require('util');
 var EventEmiter = require('events');
-var scrapy = require('./common').scrapy;
+var scrapy = require('./base');
 var HtmlParser = require('./htmlparser');
 
 class Extractor extends EventEmiter{

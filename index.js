@@ -1,4 +1,3 @@
-var scrapy = require('./lib/spider');
+require('babel-polyfill');
 
-//expose class/functions
-module.exports = scrapy;
+module.exports = require('./lib').default;

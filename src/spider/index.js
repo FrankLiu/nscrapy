@@ -1,11 +1,11 @@
 /**
- * ³éÏóÒ»¸ö²É¼¯ÈÎÎñÁ÷³Ì£º³õÊ¼»¯ -> µÇÂ¼ -> ²É¼¯ -> ½âÎö -> ´æ´¢ -> Íê³É
- * ÊµÀı»¯Spider´ú±í³õÊ¼»¯Ò»¸öÁ÷³Ì£¬Ã¿¸öÁ÷³Ì¶¼ÓÉÒ»¸öÎ¨Ò»µÄ±êÊ¶id£¬Á÷³ÌËùÓĞ½×¶Î¶¼»á¹«ÓÃÍ¬Ò»¸öid
- * Á÷³Ì·ÖÎª6¸ö½×¶Î£¬Ã¿¸ö½×¶Î¶¼ÓÉÏÂÁĞ5¸ö×´Ì¬£ºdoing, waiting_input, done_succ, done_failure, done_timeout
- * Ã¿¸ö½×¶ÎÓĞ½ø¶È±êÊ¶£¬progress£¬ÓÃÓÚ¼ÇÂ¼µ±Ç°½×¶ÎµÄÁ÷³Ì½ø¶È£¬È¡Öµ0-100
- * Ã¿¸ö½×¶ÎÓĞ¹ıÂËÆ÷£¬ÓÃÓÚÁé»î´¦ÀíÁ÷³Ì¿ªÊ¼ºÍ½áÊøÊ±µÄÊı¾İ
+ * æŠ½è±¡ä¸€ä¸ªé‡‡é›†ä»»åŠ¡æµç¨‹ï¼šåˆå§‹åŒ– -> ç™»å½• -> é‡‡é›† -> è§£æ -> å­˜å‚¨ -> å®Œæˆ
+ * å®ä¾‹åŒ–Spiderä»£è¡¨åˆå§‹åŒ–ä¸€ä¸ªæµç¨‹ï¼Œæ¯ä¸ªæµç¨‹éƒ½ç”±ä¸€ä¸ªå”¯ä¸€çš„æ ‡è¯†idï¼Œæµç¨‹æ‰€æœ‰é˜¶æ®µéƒ½ä¼šå…¬ç”¨åŒä¸€ä¸ªid
+ * æµç¨‹åˆ†ä¸º6ä¸ªé˜¶æ®µï¼Œæ¯ä¸ªé˜¶æ®µéƒ½ç”±ä¸‹åˆ—5ä¸ªçŠ¶æ€ï¼šdoing, waiting_input, done_succ, done_failure, done_timeout
+ * æ¯ä¸ªé˜¶æ®µæœ‰è¿›åº¦æ ‡è¯†ï¼Œprogressï¼Œç”¨äºè®°å½•å½“å‰é˜¶æ®µçš„æµç¨‹è¿›åº¦ï¼Œå–å€¼0-100
+ * æ¯ä¸ªé˜¶æ®µæœ‰è¿‡æ»¤å™¨ï¼Œç”¨äºçµæ´»å¤„ç†æµç¨‹å¼€å§‹å’Œç»“æŸæ—¶çš„æ•°æ®
  */
-require('./lang');
+require('./es5_polyfill');
 var scrapy = require('./base');
 var ResultItems = require('./resultitems');
 var Downloader = require('./downloader');
@@ -33,61 +33,80 @@ var Spider = function(options){
 }
 util.inherit(Spider, EventEmiter);
 
+Spider.Event = function(id, stage, status, progress){
+	this.id = id;
+	this.stage = stage;
+	this.status = status;
+	this.progress = 0;
+}
+
 Spider.STAGES = ['init' , 'login', 'fetch', 'extract', 'export', 'end'];
-Spider.STATUSES = ['waiting_input', 'doing', 'done_succ', 'done_failure', 'done_timeout'];
+Spider.STATUSES = ['doing', 'waiting_input', 'done_succ', 'done_failure', 'done_timeout'];
 
 Spider.prototype = {
-	//³õÊ¼»¯
-	assembly: function(){
-		this.emit('init', this.id);
-		return this;
-	}
+	//åˆ†å‘äº‹ä»¶
+	publish: function(event){
+		if(!event instanceof Spider.Event){
+			throw new Error('invalid-event: ' + e.toString());
+		}
+		this.emit(event.id, event);
+	},
 	
-   //µÇÂ¼º¯Êı: before and after ÊÂ¼ş¿ÉÒÔ»ùÓÚfilter»úÖÆÀ´ÊµÏÖ
+	//è®¢é˜…äº‹ä»¶
+	subscriber: function(event, cb){
+		if(!event instanceof Spider.Event){
+			throw new Error('invalid-event: ' + e.toString());
+		}
+		this.on(event.id, cb);
+	},
+	
+	//åˆå§‹åŒ–
+	assembly: function(){
+		this.publish(new Spider.Event(this.id, 'init', 'doing', 0));
+		return this;
+	},
+	
+	//ç™»å½•å‡½æ•°: before and after äº‹ä»¶å¯ä»¥åŸºäºfilteræœºåˆ¶æ¥å®ç°
 	login: function(username, password){
 		this.emit('login', this.id);
-		this.emit('login', {step: 'begin', sid: username}); 
 		this.emit('login', {step: 'input', type: 'img', sid: username});
 		this.emit('login', {step: 'input', type: 'sms', sid: username});
 		this.emit('login', {step: 'input', type: 'pwd', sid: username});
-		this.emit('login', {step: 'end', sid: username});
 		return this;
 	},
 
-	//»ñÈ¡Êı¾İ
+	//è·å–æ•°æ®
 	fetch: function(){
 		this.emit('fetch', this.id);
-		this.emit('fetch', {step: 'begin', sid: username});
 		this.emit('fetch', {step: 'data', sid: username});
-		this.emit('fetch', {step: 'end', sid: username});
 		return this;
 	},
 
-	// ·ÖÎöÌáÈ¡Êı¾İ
+	// åˆ†ææå–æ•°æ®
 	extract: function(){
 		this.emit('extract', this.id);
 		return this;
 	},
 
-	// µ¼³öÊı¾İ£¬±ÈÈçµ¼³öµ½db/fs/net
+	// å¯¼å‡ºæ•°æ®ï¼Œæ¯”å¦‚å¯¼å‡ºåˆ°db/fs/COS
 	pipe: function(target){
 		this.emit('export', this.id);
 		return this;
 	},
 
-	//½áÊø½×¶Î
+	//ç»“æŸé˜¶æ®µ
 	end: function(){
 		this.emit('end', this.id);
 		return this;
-	}
+	},
 	
-    //¿ªÊ¼²É¼¯ÈÎÎñ
+    //å¼€å§‹é‡‡é›†ä»»åŠ¡
     start: function(){
         this.assembly()
-			.login(this.getUsername(), this.getPassword());
-			.fetch();
-			.extract();
-			.pipe();
+			.login(this.getUsername(), this.getPassword())
+			.fetch()
+			.extract()
+			.pipe()
 			.end();
     }
 
