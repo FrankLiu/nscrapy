@@ -105,7 +105,7 @@ class RuntimeError extends Error{
 	}
 
 	getStack(){
-		return this.error;
+		return this.stackTrace;
 	}
 
 	toJSON(){
@@ -125,12 +125,28 @@ _.extend(scrapy, {
   	colorLog: colorLog,
 	RuntimeError: RuntimeError,
 
+	//安全回调，会预先判断回调函数是否存在
+	invokeCallback = function(cb) {
+		if ( !! cb && typeof cb === 'function') {
+			cb.apply(null, Array.prototype.slice.call(arguments, 1));
+		}
+	},
+
 	//获取本地ip地址
   	getLocalIP: function(){
 		var ipobj = os.networkInterfaces();
 		var eth = ipobj.eth0 || ipobj.eth1 || ipobj.p4p1 || [];//1号或者2号网卡
 		var ip = (eth[0] && eth[0].family == 'IPv4') ? eth[0].address : "";//获取ipV4的地址
 		return ip;
+	},
+	
+	//判断字符串是否包含中文字符
+	hasChineseChar = function(str) {
+		if (/.*[\u4e00-\u9fa5]+.*$/.test(str)) {
+			return true;
+		} else {
+			return false;
+		}
 	},
 
 	//简单的md5加密算法实现
@@ -149,10 +165,10 @@ _.extend(scrapy, {
 	},
 
 	//抛出异常
-	raiseError: function(code, msg){
+	raise: function(code, msg){
 		return new RuntimeError(code, msg);
 	},
-
+	
 	//安全执行
 	tryCatch: function(lambda, callback){
 		var result = {};

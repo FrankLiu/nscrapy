@@ -53,7 +53,7 @@ Spider.prototype = {
 	},
 	
 	//订阅事件
-	subscriber: function(event, cb){
+	subscribe: function(event, cb){
 		if(!event instanceof Spider.Event){
 			throw new Error('invalid-event: ' + e.toString());
 		}
@@ -69,16 +69,16 @@ Spider.prototype = {
 	//登录函数: before and after 事件可以基于filter机制来实现
 	login: function(username, password){
 		this.emit('login', this.id);
-		this.emit('login', {step: 'input', type: 'img', sid: username});
-		this.emit('login', {step: 'input', type: 'sms', sid: username});
-		this.emit('login', {step: 'input', type: 'pwd', sid: username});
+		this.emit('login', {status: 'waiting_input', type: 'img', id: this.id});
+		this.emit('login', {status: 'waiting_input', type: 'sms', id: this.id});
+		this.emit('login', {status: 'waiting_input', type: 'pwd', id: this.id});
 		return this;
 	},
 
 	//获取数据
 	fetch: function(){
 		this.emit('fetch', this.id);
-		this.emit('fetch', {step: 'data', sid: username});
+		this.emit('fetch', {status: 'done_succ', id: this.id});
 		return this;
 	},
 

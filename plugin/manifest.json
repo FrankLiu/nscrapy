@@ -1,0 +1,28 @@
+{
+    "name" : "Datag-Agent", 
+	"manifest_version": 2, 
+	"version": "1.0",
+	"minimum_chrome_version":"43.0.0",
+	"description": "Datag-Agent",
+	"background": {
+        "page": "main.html"
+    },
+    "browser_action":{
+        "default_icon":"assets/images/icon.png",
+        "default_title":"__MSG_manifest_iconTitle__",
+        "default_popup":"popup.html"
+    },
+    "default_locale":"en",
+    "description":"__MSG_manifest_appDescription__",
+	"options_page":"options.html",
+	"permissions" : [
+		"tabs", 
+		"activeTab", 
+		"cookies", 
+		"downloads",
+		"downloads.open",
+		"notifications",
+		"http://*/*",
+		"https://*/*"
+	]
+}

@@ -1,0 +1,11 @@
+{
+    "manifest_appName":{
+        "message":"Datag Agent"
+    },
+    "manifest_appDescription":{
+        "message":"Datag Agent is a browser plugin"
+    },
+	"manifest_iconTitle":{
+        "message":"Datag Agent"
+    }
+}
