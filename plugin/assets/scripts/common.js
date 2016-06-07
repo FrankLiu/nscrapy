@@ -26,12 +26,13 @@ DatagAgent.createTab = function createTab(opts, injectedScript){
 
 //AJAX
 DatagAgent.getUrlContent = function(url, opts, callback){
-	var content = null;
+	opts = opts || {};
 	var async = opts.async || _.isFunction(callback);
 	var method = opts.method || 'get';
 	var data = opts.data || null;
 	
 	// Try to get the content
+	var content = null;
 	try{
 		var request = new XMLHttpRequest();
 		
@@ -87,13 +88,13 @@ DatagAgent.Cookies.removeCookie = function removeCookie(url, name){
 //localStorage
 DatagAgent.Storage = DatagAgent.Storage || {};
 DatagAgent.Storage.setItem = function(item, value){
-	chrome.localStorage.setItem(item, value);
+	window.localStorage.setItem(item, value);
 };
 DatagAgent.Storage.getItem = function(item){
-	chrome.localStorage.getItem(item);
+	return window.localStorage.getItem(item);
 };
 DatagAgent.Storage.removeItem = function(item){
-	chrome.localStorage.removeItem(item);
+	window.localStorage.removeItem(item);
 };
 
 
