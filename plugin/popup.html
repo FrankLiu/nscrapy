@@ -7,21 +7,33 @@
 	<script src="assets/libs/underscore.min.js" type="text/javascript"></script>
 	<script src="assets/libs/moment.min.js" type="text/javascript"></script>
 	<script src="assets/libs/jsencrypt.min.js" type="text/javascript"></script>
-	
+	<script src="assets/scripts/popup.js" type="text/javascript"></script>
 </head>
 <body>
 <div id="menu">
+	<!--
 	<div id="alipay">
         <div class="templateItem" title="">
             <div class="icon"></div>
             <span>Alipay</span>
+			<form name="alipayLogin">
+				<input type="text" name="alid" />
+				<input type="text" name="alpwd" />
+				<input type="submit" value="Login"/>
+			</form>
         </div>
     </div>
 	<span class="sepator"></span>
+	-->
 	<div id="jd">
         <div class="templateItem" title="">
             <div class="icon"></div>
             <span>JD</span>
+			<form name="jdLogin">
+				<input id="jdid" name="jdid" size="20"/>
+				<input id="jdpwd" name="jdpwd" size="20"/>
+				<input id="loginJdBtn" type="button" value="Login"/>
+			</form>
         </div>
     </div>
 </div>
