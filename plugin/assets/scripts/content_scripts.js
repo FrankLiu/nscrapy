@@ -12,7 +12,6 @@
     // else
       // sendResponse({}); // snub them.
 // });
-
 var port = chrome.extension.connect({name: "knockknock"});
 port.postMessage({joke: "Knock knock"});
 port.onMessage.addListener(function(msg) {
@@ -27,3 +26,26 @@ port.onMessage.addListener(function(msg) {
 		$('#loginsubmit').click();
 	}
 });
+
+function processMessage(msg){
+	switch(msg.type){
+		case 'init':
+			//TODO: verify script updated time, load script from localStorage or server
+			//loadScript();
+			break;
+		case 'login':
+			//TODO: invoke login function
+			break;
+		case 'fetch':
+			//TODO: invoke fetch function
+			break;
+		case 'extract':
+			//TODO: invoke extract function
+			break;
+		case 'end':
+			//TODO:
+			break;
+		default:
+			break;
+	}
+}

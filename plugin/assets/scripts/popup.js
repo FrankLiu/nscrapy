@@ -13,10 +13,11 @@ function loginJd(){
 		console.log(this);
 		var injectedCode = function injectedCode(){
 			$('#username').val('1Ôª±¦');
-			$('#nloginpwd, #loginpwd').val('a123456');
+			$('#nloginpwd').val('a123456');
 			$('#loginsubmit').click();
 		};
-		DatagAgent.createTab({url: 'https://passport.jd.com/new/login.aspx?ReturnUrl=http%3A%2F%2Fwww.jd.com%2F'}, 'assets/scripts/content_scripts.js');
+		var injectScript = 'assets/scripts/content_scripts.js';
+		DatagAgent.createTab({url: 'https://passport.jd.com/new/login.aspx?ReturnUrl=http%3A%2F%2Fwww.jd.com%2F'}, injectedCode);
 	});
 }
 

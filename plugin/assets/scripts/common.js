@@ -19,13 +19,13 @@ DatagAgent.createTab = function createTab(opts, injectedScript){
 			DatagAgent.injectScript(tab.id, injectedScript);
 		}
 		else{
-			DatagAgent.injectCode(tab.id, injectedScript);
+			DatagAgent.injectCode(tab.id, injectedScript+';');
 		}
 	});
 };
 
 //AJAX
-DatagAgent.getUrlContent = function(url, opts, callback){
+DatagAgent.ajax = function(url, opts, callback){
 	opts = opts || {};
 	var async = opts.async || _.isFunction(callback);
 	var method = opts.method || 'get';
@@ -34,14 +34,14 @@ DatagAgent.getUrlContent = function(url, opts, callback){
 	// Try to get the content
 	var content = null;
 	try{
-		var request = new XMLHttpRequest();
+		var xhr = new XMLHttpRequest();
 		
-		request.ontimeout = function(){
-			content = opts.errorMessage || "Ajax failed!";
+		xhr.ontimeout = function(){
+			content = opts.errorMessage || "request timeout!";
 		};
-		request.onreadystatechange = function(){
-			if (this.readyState == XMLHttpRequest.DONE) {
-				content = this.responseText;
+		xhr.onreadystatechange = function(){
+			if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+				content = xhr.responseText;
 				if(opts.parse){ content = JSON.parse(content.replace(/[\r\n\t]+/g, " ")); }
 				if(async){
 					callback(content);
@@ -58,6 +58,14 @@ DatagAgent.getUrlContent = function(url, opts, callback){
 
 	return content;
 };
+DatagAgent.get = function(url, opts, callback){
+	opts = _.extend(opts, {method: 'get'});
+	return DatagAgent.ajax(url, opts, callback);
+};
+DatagAgent.post = function(url, opts, callback){
+	opts = _.extend(opts, {method: 'post'});
+	return DatagAgent.ajax(url, opts, callback);
+}
 
 //Cookies
 DatagAgent.Cookies = DatagAgent.Cookies || {};

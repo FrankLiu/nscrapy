@@ -7,7 +7,23 @@ var moment = require('moment');
 /**
  * Javascript语言层面的扩展
  */
- //===========================================字符串函数
+//===========================================Object
+Object.prototype.$super = function(){
+	var result;
+	try{
+		 //首先获取基类的构造器，将它保存在变量result中
+		 result = eval(this.constructor).prototype.constructor;
+		 //调用基类的构造器方法
+		 result.apply(this, arguments);
+	}
+	catch(e){
+		//如果不是内建类或者自定义类，或者不在构造器中调用该方法，就抛出错误
+		throw new Error('only can be used in constructor!');
+	}
+	return result;
+}
+
+//===========================================字符串函数
 //判断string开始字母是否匹配
 String.prototype.startsWith = function(suffix) {
     return this.indexOf(suffix,0) === 0;
