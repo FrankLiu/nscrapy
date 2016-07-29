@@ -25,6 +25,7 @@ class Extractor extends EventEmiter{
 
     /**
      * 根据规则提取所需的页面元素
+	 *
      * @param rule {
      *  key:  'title',
      *  base: 'content|url',
@@ -57,7 +58,7 @@ class Extractor extends EventEmiter{
                     break;
                 case 'json':
                     break;
-                default://css selector
+                default:    //css selector
                     var baser = HtmlParser.load(content);
                     var elem = baser.select(rule['expr']);
                     if(elem){

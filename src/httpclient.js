@@ -43,7 +43,7 @@ function HttpClient(opts){
     EventEmitter.call(this);
     this.opts = _.extend({}, DEFAULT_OPTS, opts);
     this.reqOptions = _.extend({}, DEFAULT_REQ_OPTIONS);
-    this.logger = log4js.getLogger('http');
+    this.logger = log4js.getLogger('httpclient');
     //用于保存上次访问的cookies
     this.cookies = [];
 }
@@ -222,25 +222,21 @@ HttpClient.prototype = {
 
     //get请求
     get: function(url, options, callback){
-        this._call('GET', url, options, callback);
-		return this;
+        return this._call('GET', url, options, callback);
     },
 
     //post请求
-    post: function(url, options, asyncCallback){
-        this._call('POST', url, options, asyncCallback);
-		return this;
+    post: function(url, options, callback){
+        return this._call('POST', url, options, callback);
     },
 
     //put请求
-    put: function(url, options, asyncCallback){
-        this._call('PUT', url, options, asyncCallback);
-		return this;
+    put: function(url, options, callback){
+        return this._call('PUT', url, options, callback);
     },
 
-    head: function(url, options, asyncCallback){
-        this._call('HEAD', url, options, asyncCallback);
-		return this;
+    head: function(url, options, callback){
+        return this._call('HEAD', url, options, callback);
     },
 
     //opts property: autoDecode

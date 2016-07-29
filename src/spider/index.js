@@ -68,7 +68,7 @@ Spider.prototype = {
 	
 	//登录函数: before and after 事件可以基于filter机制来实现
 	login: function(username, password){
-		this.emit('login', this.id);
+		this.publish(new Spider.Event(this.id, 'login', 'doing', 0));
 		this.emit('login', {status: 'waiting_input', type: 'img', id: this.id});
 		this.emit('login', {status: 'waiting_input', type: 'sms', id: this.id});
 		this.emit('login', {status: 'waiting_input', type: 'pwd', id: this.id});
