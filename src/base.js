@@ -7,13 +7,13 @@ var os = require("os");
 var crypto = require("crypto");
 
 //slice/splice函数
-var _slice = Array.prototype.slice;
-var _splice = Array.prototype.splice;
+var _slice = [].slice;
+var _splice = [].splice;
 
 //3rd party libs
 var _ = require('underscore');
 var uuid = require('uuid');
-
+var log4js = require('log4js');
 
 /***************************************************************
  *    scrapy = scrapy || {}, 申明命名空间
@@ -105,7 +105,7 @@ class RuntimeError extends Error{
 	}
 
 	getStack(){
-		return this.stackTrace;
+		return this.stack;
 	}
 
 	toJSON(){
@@ -124,9 +124,25 @@ _.extend(scrapy, {
   	log: log,
   	colorLog: colorLog,
 	RuntimeError: RuntimeError,
-
+	
+	//定义property
+	defineProperty: function(o, property, opts){
+		Object.defineProperty(o, key, {
+			value: opts,
+			enumerable: true,
+			writable: true,
+			configurable: true
+		});
+	},
+	defineGetter: function(o, property, getFn){
+		this.defineProperty(o, property, {get: getFn});
+	},
+	defineSetter: function(o, property, setFn){
+		this.defineProperty(o, property, {set: setFn});
+	},
+	
 	//安全回调，会预先判断回调函数是否存在
-	invokeCallback = function(cb) {
+	invokeCallback: function(cb) {
 		if ( !! cb && typeof cb === 'function') {
 			cb.apply(null, Array.prototype.slice.call(arguments, 1));
 		}

@@ -15,7 +15,7 @@ DatagAgent.createTab = function createTab(opts, injectedScript){
 		DatagAgent.injectScript(tab.id, 'assets/libs/underscore.min.js');
 		DatagAgent.injectScript(tab.id, 'assets/libs/moment.min.js');
 		DatagAgent.injectScript(tab.id, 'assets/libs/jsencrypt.min.js');
-		if(injectedScript.indexOf('.js') > 0){
+		if(_.isString(injectedScript) && injectedScript.indexOf('.js') > 0){
 			DatagAgent.injectScript(tab.id, injectedScript);
 		}
 		else{

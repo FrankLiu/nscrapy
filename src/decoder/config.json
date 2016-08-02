@@ -1,0 +1,18 @@
+{
+	"default": "yscode",
+	"uucode": {
+		"endpoint" : "http://common.taskok.com:9000/Service/ServerConfig.aspx",
+		"username" : "astodr",
+		"password" : "asto123qwaszx!@#" ,
+		"sid"      : "98976"  ,
+		"softkey"  : "50ea066ffd2b41a9af5b19f1efa2af9a",
+		"version"  : "1.0.0.1",
+		"mac"      : "F01FAFE4E65B"
+	},
+	"yscode": {
+		'username' : 'astodr',
+		'password' : '98E5E7EF6D828A770D089592B95D45E8',
+		'softid'   : '32723',
+		'softkey'  : 'f9d7cdf3a761429f95cd1b9099235a2d'
+	}
+}

@@ -27,7 +27,6 @@ const TRANS_MODE = {
 	BY_FILE: 1,
 	BY_BUFFER: 2
 };
-request.debug = true;
 
 //∞¥Õº∆¨µÿ÷∑Ω‚¬Î
 function decode(imageUrl, type, callback){
