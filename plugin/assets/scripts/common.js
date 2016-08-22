@@ -1,26 +1,36 @@
 var DatagAgent = DatagAgent || {};
 
 //common functions
-DatagAgent.injectScript = function injectScript(tabId, script){
-	chrome.tabs.executeScript(tabId, {file: script});
+DatagAgent.injectScript = function injectScript(tabId, script, runAt){
+	chrome.tabs.executeScript(tabId, {file: script, runAt: runAt});
 };
-DatagAgent.injectCode = function injectCode(tabId, codeExpr){
-	chrome.tabs.executeScript(tabId, { code: codeExpr });
+DatagAgent.injectScripts = function injectScript(tabId, scripts, runAt){
+	for(var script in scripts){
+		chrome.tabs.executeScript(tabId, {file: script, runAt: runAt});
+	}
 };
-
-DatagAgent.createTab = function createTab(opts, injectedScript){
+DatagAgent.injectCode = function injectCode(tabId, codeExpr, runAt){
+	chrome.tabs.executeScript(tabId, { code: codeExpr, runAt: runAt});
+};
+DatagAgent.inject = function inject(tabId, codeOrScript, runAt){
+	runAt = runAt || 'document_end'
+	if(_.isString(codeOrScript) && codeOrScript.indexOf('.js') > 0){
+		DatagAgent.injectScript(tab.id, codeOrScript, runAt);
+	}
+	else{
+		DatagAgent.injectCode(tab.id, codeOrScript+';', runAt);
+	}
+};
+DatagAgent.createTab = function createTab(opts, codeOrScript){
 	opts = _.extend(opts, {index: 0, selected: true, pinned: false});
 	chrome.tabs.create(opts, function(tab){
-		DatagAgent.injectScript(tab.id, 'assets/libs/jquery-1.11.3.min.js');
-		DatagAgent.injectScript(tab.id, 'assets/libs/underscore.min.js');
-		DatagAgent.injectScript(tab.id, 'assets/libs/moment.min.js');
-		DatagAgent.injectScript(tab.id, 'assets/libs/jsencrypt.min.js');
-		if(_.isString(injectedScript) && injectedScript.indexOf('.js') > 0){
-			DatagAgent.injectScript(tab.id, injectedScript);
-		}
-		else{
-			DatagAgent.injectCode(tab.id, injectedScript+';');
-		}
+		DatagAgent.injectScripts(tab.id, [
+			'assets/libs/jquery-1.11.3.min.js',
+			'assets/libs/underscore.min.js',
+			'assets/libs/moment.min.js',
+			'assets/libs/jsencrypt.min.js'
+			], 'document_start');
+		DatagAgent.inject(tab.id, codeOrScript, 'document_end');
 	});
 };
 

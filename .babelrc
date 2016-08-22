@@ -3,5 +3,38 @@
 		"es2015", 
 		"stage-0"
     ],
-    "plugins": ["transform-regenerator"]
-  }
+    "plugins": ["transform-regenerator"],
+	"env": {
+		"development": {
+		  "sourceMaps": "both"
+		},
+		"node": {
+		  "sourceMaps": "inline",
+		  "ignore": "**/*.browser.js",
+		  "plugins": [
+			[
+			  "transform-es2015-modules-commonjs-simple",
+			  {
+				"noMangle": true,
+				"addExports": true
+			  }
+			],
+			"transform-undefined-to-void"
+		  ]
+		},
+		"browser": {
+		  "sourceMaps": true,
+		  "plugins": [
+			[
+			  "transform-es2015-modules-commonjs-simple",
+			  {
+				"noMangle": true,
+				"addExports": true
+			  }
+			],
+			"transform-undefined-to-void",
+			"lodash"
+		  ]
+		}
+	}
+}

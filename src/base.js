@@ -148,6 +148,16 @@ _.extend(scrapy, {
 		}
 	},
 
+	//判断对象是否为空，为空则抛出异常
+	notNull: function(obj, code, description){
+		if(!obj) scrapy.raise(code, description);
+	},
+
+	//判断对象或者预设值是否为空，为空则抛出异常
+	notEmpty: function(obj, code, description){
+		if(scrapy.isEmpty(obj)) scrapy.raise(code, description);
+	},
+
 	//获取本地ip地址
   	getLocalIP: function(){
 		var ipobj = os.networkInterfaces();
@@ -166,10 +176,10 @@ _.extend(scrapy, {
 	},
 
 	//简单的md5加密算法实现
-  	md5: function(data){
+  	md5: function(data, digest){
 		var buf = new Buffer(data);
 	    var str = buf.toString("binary");
-	    return crypto.createHash("md5").update(str).digest("hex");
+	    return crypto.createHash("md5").update(str).digest(digest || 'base64');
 	},
 
 	//生成全局唯一id

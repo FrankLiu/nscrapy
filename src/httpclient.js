@@ -69,6 +69,21 @@ HttpClient.prototype = {
         this.opts.cache = cache;
     },
 
+	//opts property: autoDecode
+    enableAutoDecode: function(){
+        this.opts.autoDecode = true;
+    },
+    disableAutoDecode: function(){
+        this.opts.autoDecode = false;
+    },
+    //opts property: keepCookies
+    enableKeepCookies: function(){
+        this.opts.keepCookies = true;
+    },
+    disableKeepCookies: function(){
+        this.opts.keepCookies = false;
+    },
+	
     //发送请求并分析结果
     _call: function(method, url, options, callback){
         this.logger.info('[%s] %s', method, url);
@@ -237,21 +252,6 @@ HttpClient.prototype = {
 
     head: function(url, options, callback){
         return this._call('HEAD', url, options, callback);
-    },
-
-    //opts property: autoDecode
-    enableAutoDecode: function(){
-        this.opts.autoDecode = true;
-    },
-    disableAutoDecode: function(){
-        this.opts.autoDecode = false;
-    },
-    //opts property: keepCookies
-    enableKeepCookies: function(){
-        this.opts.keepCookies = true;
-    },
-    disableKeepCookies: function(){
-        this.opts.keepCookies = false;
     },
 
 	//事件链，模拟多个url采集参数传递

@@ -7,16 +7,19 @@ import { path } from 'path';
 import { fs } from 'fs';
 import { EventEmitter } from 'events';
 import { scrapy } from '../base';
+import { HttpClient } from '../httpclient';
 
 export default class ImageDecoder extends EventEmitter{
 	constructor(opts){
 		super();
-		this.opts = scrapy.extend({conf: this.loadConfig()}, opts);
+		this.opts = scrapy.extend({}, opts);
+		this.httpClient = HttpClient.create({keepCookies: false});
 		this.emit('init');
 	}
 	
-	loadConfig(){
-		return JSON.parse(fs.readFileSync(path.join(__dirname,'config.json'), 'utf8'));
+	loadConfig(vendor){
+		vendor = vendor || 'default';
+		return JSON.parse(fs.readFileSync(path.join(__dirname,'config.json'), 'utf8'))[vendor];
 	}
 	
 	decode(){

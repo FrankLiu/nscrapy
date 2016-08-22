@@ -4,7 +4,7 @@
   "description": "Nodejs爬虫，可抓取图片和文本",
   "main": "index.js",
   "engines": {
-    "node": ">= 4.2.0"
+    "node": ">= 4.3.0"
   },
   "scripts": {
     "compile": "./node_modules/.bin/babel -d lib/ src/",
@@ -42,7 +42,6 @@
     "mkdirp": "^0.5.0",
     "morgan": "^1.6.1",
     "nconf": "^0.8.4",
-    "npm": "^3.9.5",
     "redis": "~2.5.3",
     "request": "~2.55.0",
     "serve-favicon": "^2.3.0",
