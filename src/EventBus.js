@@ -19,8 +19,8 @@ export default class EventBus extends EventEmitter{
 		return eventBusMap;
 	}
 	
-	publish(event){
-		this.emit(event);
+	publish(event, ...args){
+		this.emit(event, args);
 	}
 	
 	subscribe(event, fn){
@@ -31,4 +31,5 @@ export default class EventBus extends EventEmitter{
 		this.removeListener(event, fn);
 	}
 }
+
 

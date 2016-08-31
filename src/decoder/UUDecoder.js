@@ -19,7 +19,7 @@ export default class UUDecoder extends ImageDecoder{
 	}
 	
 	//根据优优云API访问入口获取服务器地址列表
-    _getServerAddresses: function *(){
+    * _getServerAddresses(){
         var resp = yield this.httpClient.get(this.options.endpoint);
 		if(resp.error){
 			scrapy.raise('uucode-failure', 'Get uucode server addresses failure!');
@@ -41,7 +41,7 @@ export default class UUDecoder extends ImageDecoder{
 		scrapy.notEmpty(this.resultUrl, 'resultUrl-is-required', '获取优优云服务器结果地址列表失败');
     }
 
-	_buildAddrs: function(code, addr){
+	_buildAddrs(code, addr){
 		switch(code){
 			case '101': this.loginUrl = util.format('http://%s/Upload/Login.aspx', addr);
 			case '102': this.uploadUrl = util.format('http://%s/Upload/Processing.aspx', addr);
@@ -50,7 +50,7 @@ export default class UUDecoder extends ImageDecoder{
 	}
 
     //md5加密
-    _md5: function(a, toUpperCase){
+    _md5(a, toUpperCase){
         var str;
         if(_.isArray(a)){
             str = _.reduce(a, function(memo, i){
@@ -68,12 +68,12 @@ export default class UUDecoder extends ImageDecoder{
     }
 
     //构建登录url
-    _buildLoginUrl: function(endpoint, username, passwd){
+    _buildLoginUrl(endpoint, username, passwd){
         return util.format('%s?U=%s&p=%s', endpoint, username, this._md5(passwd));
     }
 
     //构建登录的http头
-    _buildLoginHeader: function(){
+    _buildLoginHeader(){
 		if(_.isNotEmpty(this.loginHeader)){
 			return this.loginHeader;
 		}
@@ -95,7 +95,7 @@ export default class UUDecoder extends ImageDecoder{
     }
 
     //构建提交图片的表单
-    _buildProcessingForm: function(userkey){
+    _buildProcessingForm(userkey){
         this.processingForm = {
             "Version" : "100",
             "TimeOut" : 60*1000,
@@ -108,7 +108,7 @@ export default class UUDecoder extends ImageDecoder{
     }
 
     //登录优优云服务
-    _login: function *(){
+    * _login(){
 		if(this.logined){
 			this.logger.warn('login uuwise before, ignored!');
 			return;
@@ -140,7 +140,7 @@ export default class UUDecoder extends ImageDecoder{
     }
 
     //上传图片到优优云服务器
-    _uploadImg: function *(imgBuf, type){
+    * _uploadImg(imgBuf, type){
         var options = {
             headers: _.omit(this.loginHeader, 'KEY'),
             formData: _.extend(this.processingForm, {
@@ -174,12 +174,12 @@ export default class UUDecoder extends ImageDecoder{
     }
 
     //构建getResult地址
-    _buildGetResultUrl: function(token){
+    _buildGetResultUrl(token){
         return this.resultUrl + '?key=' + this.processingForm.KEY + '&ID=' + token;
     }
 
 	//获取解码结果:重试10次
-    _getResult: function *(token){
+    * _getResult(token){
         var ret='';
 		// let's try 10 times
 		for (var retriedTimes=0; retriedTimes<10 && !ret; retriedTimes++) {

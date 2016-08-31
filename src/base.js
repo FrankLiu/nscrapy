@@ -130,8 +130,8 @@ _.extend(scrapy, {
 		Object.defineProperty(o, key, {
 			value: opts,
 			enumerable: true,
-			writable: true,
-			configurable: true
+			writable: false,
+			configurable: false
 		});
 	},
 	defineGetter: function(o, property, getFn){
@@ -167,7 +167,7 @@ _.extend(scrapy, {
 	},
 	
 	//判断字符串是否包含中文字符
-	hasChineseChar = function(str) {
+	hasChineseChar: function(str) {
 		if (/.*[\u4e00-\u9fa5]+.*$/.test(str)) {
 			return true;
 		} else {

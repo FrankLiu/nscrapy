@@ -21,7 +21,6 @@ var Spider = function(options){
   this.id = scrapy.genUuid();
   this.options = options || {};
   
-  this.filters = options.filters || [];
   this.scheduler = this.options.scheduler || new Schduler(this);
   this.downloader = this.options.downloader || new Downloader(this);
   this.extractor = this.options.extractor || new Extractor(this);
@@ -42,6 +41,7 @@ Spider.Event = function(id, stage, status, progress){
 
 Spider.STAGES = ['init' , 'login', 'fetch', 'extract', 'export', 'end'];
 Spider.STATUSES = ['doing', 'waiting_input', 'done_succ', 'done_failure', 'done_timeout'];
+Spider.FILTERS = ['beforeLogin', 'afterLogin', 'beforeFetch', 'afterFetch', 'beforeExtract', 'afterExtract', 'beforeExport', 'afterExport'];
 
 Spider.prototype = {
 	//分发事件
@@ -58,6 +58,18 @@ Spider.prototype = {
 			throw new Error('invalid-event: ' + e.toString());
 		}
 		this.on(event.id, cb);
+	},
+	
+	//add filters
+	addFilter: function(type, fn){
+		
+	},
+	
+	before: function(type, fn){
+		
+	},
+	after: function(type, fn){
+		
 	},
 	
 	//初始化
@@ -114,6 +126,7 @@ Spider.prototype = {
 
 //expose class/functions
 scrapy.extend(scrapy, {
+	Spider: Spider,
 	ResultItems: ResultItems,
 	Downloader: Downloader,
 	Extractor: Extractor,

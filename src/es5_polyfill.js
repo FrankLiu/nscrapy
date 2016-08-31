@@ -28,12 +28,14 @@ Object.prototype.$super = function(){
 String.prototype.startsWith = function(suffix) {
     return this.indexOf(suffix,0) === 0;
 }
-
 //判断string开始字母是否匹配
 String.prototype.endsWith = function(suffix) {
     return this.indexOf(suffix, this.length - suffix.length) !== -1;
 }
-
+//判断是否包含某单词
+String.prototype.contains = function(word){
+	return this.indexOf(word) >= 0;
+}
 // 去除前后空格符
 String.prototype.trim= function(){
     return this.replace(/(^\s*)|(\s*$)/g, "");
@@ -54,10 +56,7 @@ String.prototype.rstrip = function(){
 	return this.replace(/(\/*$)/g, '');
 }
 
-//判断是否包含某单词
-String.prototype.contains = function(word){
-	return this.indexOf(word) >= 0;
-}
+
 
 //根据开始字符串截取给定长度字符串
 String.prototype.substr2 = function(startStr, length){
