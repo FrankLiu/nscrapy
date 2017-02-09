@@ -1,13 +1,10 @@
-/**
- * 内容提取工具类，用于提取各类页面元素
- */
 "use strict"
 
 /**
  **
  * Http客户端工具
  */
-var scrapy = require('./common').scrapy;
+require('./es5_polyfill');
 var util = require('util');
 var EventEmitter = require('events');
 var _ = require('underscore');
@@ -16,7 +13,7 @@ var log4js = require('log4js');
 var request = require('request');
 var iconv = require('iconv-lite');
 var tough = require('tough-cookie');
-var HtmlParser = require('../parsers/htmlparser');
+var HtmlParser = require('./htmlparser');
 
 var SUPPORTED_METHODS = ['GET','POST','PUT','HEAD'];
 var DEFAULT_HEADERS =  {
@@ -46,7 +43,7 @@ function HttpClient(opts){
     EventEmitter.call(this);
     this.opts = _.extend({}, DEFAULT_OPTS, opts);
     this.reqOptions = _.extend({}, DEFAULT_REQ_OPTIONS);
-    this.logger = log4js.getLogger('http');
+    this.logger = log4js.getLogger('httpclient');
     //用于保存上次访问的cookies
     this.cookies = [];
 }
@@ -70,6 +67,21 @@ HttpClient.prototype = {
     //设置cache
     setCache: function(cache){
         this.opts.cache = cache;
+    },
+
+	//opts property: autoDecode
+    enableAutoDecode: function(){
+        this.opts.autoDecode = true;
+    },
+    disableAutoDecode: function(){
+        this.opts.autoDecode = false;
+    },
+    //opts property: keepCookies
+    enableKeepCookies: function(){
+        this.opts.keepCookies = true;
+    },
+    disableKeepCookies: function(){
+        this.opts.keepCookies = false;
     },
 
     //发送请求并分析结果
@@ -225,40 +237,21 @@ HttpClient.prototype = {
 
     //get请求
     get: function(url, options, callback){
-        this._call('GET', url, options, callback);
-		return this;
+        return this._call('GET', url, options, callback);
     },
 
     //post请求
-    post: function(url, options, asyncCallback){
-        this._call('POST', url, options, asyncCallback);
-		return this;
+    post: function(url, options, callback){
+        return this._call('POST', url, options, callback);
     },
 
     //put请求
-    put: function(url, options, asyncCallback){
-        this._call('PUT', url, options, asyncCallback);
-		return this;
+    put: function(url, options, callback){
+        return this._call('PUT', url, options, callback);
     },
 
-    head: function(url, options, asyncCallback){
-        this._call('HEAD', url, options, asyncCallback);
-		return this;
-    },
-
-    //opts property: autoDecode
-    enableAutoDecode: function(){
-        this.opts.autoDecode = true;
-    },
-    disableAutoDecode: function(){
-        this.opts.autoDecode = false;
-    },
-    //opts property: keepCookies
-    enableKeepCookies: function(){
-        this.opts.keepCookies = true;
-    },
-    disableKeepCookies: function(){
-        this.opts.keepCookies = false;
+    head: function(url, options, callback){
+        return this._call('HEAD', url, options, callback);
     },
 
 	//事件链，模拟多个url采集参数传递
@@ -300,5 +293,4 @@ HttpClient.prototype = {
 }
 
 //声明命名空间
-scrapy.HttpClient = HttpClient;
-module.exports = scrapy;
+module.exports = HttpClient;

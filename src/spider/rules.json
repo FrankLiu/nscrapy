@@ -1,0 +1,17 @@
+{
+	"url": "http://list.jd.com/list.html?cat=670%2C671%2C672&page={pn}&JL=6_0_0&ms=5#J_main",
+	"from": 1,
+	"to": 10,
+	"charset" : "gbk",
+	"saveDir" : "e:\\jd",
+	"selector": [
+		{
+			"type": "list",
+			"val": ".p-img a.href"
+		},
+		{
+			"type": "detail",
+			"val": "#spec-list > img[data-url].src"
+		}
+	]
+}
