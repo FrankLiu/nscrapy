@@ -1,11 +1,10 @@
 'use strict';
 
 import assert from 'assert';
+import test from 'ava';
 import '../lib';
 
-describe('scrapy', () => {
-	
-	it('scrapy.Spider', done => {
-		assert.notnull(scrapy.Spider);
-	});
+test('scrapy.Spider', t => {
+	assert.notnull(scrapy.Spider);
+  t.pass();
 });

@@ -1,7 +1,7 @@
 'use strict';
 
 //3rd party libs
-var _ = require('underscore');
+var _ = require('lodash');
 var moment = require('moment');
 
 /**

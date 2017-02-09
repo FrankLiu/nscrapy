@@ -3,82 +3,80 @@ import path from 'path';
 import fs from 'fs';
 import download from '../lib/downloader';
 import { randomFilename } from '../lib/downloader/utils';
+import test from 'ava';
 
 let readFile = f => fs.readFileSync(f).toString();
 let getFileSize = f => fs.statSync(f).size;
 
-describe('es2015_demo', () => {
-	
-	it('复制本地文件成功', done => {
-		
-		let source = __filename;
-		let target = randomFilename();
-		let onProgress = false;
-		
-		download(source, target, (size, total) => {
-			onProgress = true;
-			assert.equal(size, total);
-			assert.equal(total, getFileSize(source));
-		})
-		.then(filename => {
-			console.log(`已保存到${filename}`);
-			assert.equal(onProgress, true);
-			assert.equal(target, filename);
-			assert.equal(readFile(source), readFile(target)); 
-			
-			done();
-		})
-		.catch(err => {
-			console.log(`出错：${err}`)
-			throw err;
-		});
+test('复制本地文件成功', done => {
+
+	let source = __filename;
+	let target = randomFilename();
+	let onProgress = false;
+
+	download(source, target, (size, total) => {
+		onProgress = true;
+		assert.equal(size, total);
+		assert.equal(total, getFileSize(source));
+	})
+	.then(filename => {
+		console.log(`已保存到${filename}`);
+		assert.equal(onProgress, true);
+		assert.equal(target, filename);
+		assert.equal(readFile(source), readFile(target));
+
+		done();
+	})
+	.catch(err => {
+		console.log(`出错：${err}`)
+		throw err;
 	});
-	
-	it('复制本地文件成功 callback', done => {
+});
 
-		let source = __filename;
-		let target = randomFilename();
-		let onProgress = false;
+test('复制本地文件成功 callback', done => {
 
-		download(source, target, (size, total) => {
+	let source = __filename;
+	let target = randomFilename();
+	let onProgress = false;
 
-			onProgress = true;
-			assert.equal(size, total);
-			assert.equal(total, getFileSize(source));
+	download(source, target, (size, total) => {
 
-		}, (err, filename) => {
+		onProgress = true;
+		assert.equal(size, total);
+		assert.equal(total, getFileSize(source));
 
-			assert.equal(err, null);
-			assert.equal(onProgress, true);
-			assert.equal(target, filename);
-			assert.equal(readFile(source), readFile(target));
+	}, (err, filename) => {
 
-			done();
+		assert.equal(err, null);
+		assert.equal(onProgress, true);
+		assert.equal(target, filename);
+		assert.equal(readFile(source), readFile(target));
 
-		});
+		done();
+
 	});
-  
-	it('下载文件成功', done => {
-		
-		let url = 'https://static.yuanbaopu.com/ui/ec/images/indexs/websitelog.png';
-		let target = randomFilename()+'.png';
-		let onProgress = false;
-		
-		download(url, target, (size, total) => {
-			onProgress = true;
-			assert.equal(size, total);
-		})
-		.then(filename => {
-			console.log(`已保存到${filename}`);
-			assert.equal(onProgress, true);
-			assert.equal(target, filename);
-			// assert.equal(total, getFileSize(target));
-			
-			done();
-		})
-		.catch(err => {
-			console.log(`出错：${err}`)
-			throw err;
-		});
+});
+
+test('下载文件成功', done => {
+
+	let url = 'https://static.yuanbaopu.com/ui/ec/images/indexs/websitelog.png';
+	let target = randomFilename()+'.png';
+	let onProgress = false;
+
+	download(url, target, (size, total) => {
+		onProgress = true;
+		assert.equal(size, total);
+	})
+	.then(filename => {
+		console.log(`已保存到${filename}`);
+		assert.equal(onProgress, true);
+		assert.equal(target, filename);
+		// assert.equal(total, getFileSize(target));
+
+		done();
+	})
+	.catch(err => {
+		console.log(`出错：${err}`)
+		throw err;
 	});
 });

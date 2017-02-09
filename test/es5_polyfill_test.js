@@ -1,6 +1,7 @@
 'use strict';
 
 require('../src/es5_polyfill');
+import test from 'ava';
 
 function Person(){
 	if(arguments.length > 2){

@@ -7,7 +7,7 @@
 require('./es5_polyfill');
 var util = require('util');
 var EventEmitter = require('events');
-var _ = require('underscore');
+var _ = require('lodash');
 var async = require('async');
 var log4js = require('log4js');
 var request = require('request');
@@ -83,7 +83,7 @@ HttpClient.prototype = {
     disableKeepCookies: function(){
         this.opts.keepCookies = false;
     },
-	
+
     //发送请求并分析结果
     _call: function(method, url, options, callback){
         this.logger.info('[%s] %s', method, url);

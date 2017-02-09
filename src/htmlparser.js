@@ -4,7 +4,7 @@
  */
 require('./es5_polyfill');
 var cheerio = require('cheerio');
-var _ = require('underscore');
+var _ = require('lodash');
 
 
 function HtmlParser(html){

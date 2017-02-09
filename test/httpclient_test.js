@@ -1,14 +1,13 @@
 'use strict';
 
 import assert from 'assert';
-import { HttpClient } from '../httpclient';
+import test from 'ava';
+import HttpClient from '../lib/httpclient';
 
 let hc = HttpClient.create();
 
 
-describe('httpclient', () => {
-	it('hc not null', done => {
-		assert.notNull(hc);
-	});
-	
+test('hc not null', done => {
+	assert.notNull(hc);
 });
+	
